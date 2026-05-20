@@ -1,0 +1,3 @@
+1) Seperate out item pools to be handled by a seperate method, that way the pools update if a player levels up during an activty
+
+    Idealy we should have a generate_item_pool(player: Player, dict: dict) -> list method 
