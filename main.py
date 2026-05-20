@@ -9,7 +9,7 @@ def main():
 
     test_player = player.Player("test")
 
-    activities.go_mining(test_player, 100)
+    activities.go_mining(test_player, 1000)
 
     test_player.list_inventory()
 
