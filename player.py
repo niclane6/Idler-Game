@@ -1,12 +1,37 @@
+import json
+import os
+
 class Player:
+    SAVE_DIR = "saves"
+
     def __init__(self, name: str):
         self.name = name
-
         self.busy = False
-
         self.__inventory = {}
-
         self.__skill_mining = {"xp": 0, "level": 1}
+
+        self._load_from_file()
+
+    def _get_save_path(self) -> str:
+        os.makedirs(self.SAVE_DIR, exist_ok=True)
+        return os.path.join(self.SAVE_DIR, f"{self.name}.json")
+    
+    def _load_from_file(self):
+        save_path = self._get_save_path()
+        if os.path.exists(save_path):
+            with open(save_path, "r") as f:
+                data = json.load(f)
+                self.__inventory = data["inventory"]
+                self.__skill_mining = data["skill_mining"]
+
+    def save_to_file(self):
+        save_path = self._get_save_path()
+        data = {
+            "inventory": self.__inventory,
+            "skill_mining": self.__skill_mining
+        }
+        with open(save_path, "w") as f:
+            json.dump(data, f, indent=2)
 
     def get_mining_xp(self) -> int:
         return self.__skill_mining["xp"]
