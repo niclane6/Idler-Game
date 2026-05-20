@@ -20,7 +20,7 @@ def go_mining(player: Player, hours: int):
         else:
             player.add_item(random.choice(pool))
 
-        player.add_xp(1)
+        player.add_xp_mining(1)
 
         if player.get_mining_level() != mining_level:
             mining_level = player.get_mining_level()

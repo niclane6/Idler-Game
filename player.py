@@ -39,20 +39,26 @@ class Player:
     def get_mining_level(self) -> int:
         return self.__skill_mining["level"]
     
-    def add_xp(self, xp: int):
-        total_xp = self.get_mining_xp() + xp
-        self.__skill_mining["xp"] = total_xp
-
+    @staticmethod
+    def _xp_to_level(xp: int) -> int:
         base_xp_per_level = 10
         current_level = 1
 
-        while total_xp > 0:
+        while xp > 0:
             xp_to_lose = base_xp_per_level + current_level
-            if total_xp - xp_to_lose >= 0:
+            if xp - xp_to_lose >= 0:
                 current_level += 1
-            total_xp -= xp_to_lose
+            xp -= xp_to_lose
 
-        self.__skill_mining["level"] = current_level
+        return current_level
+    
+    def add_xp_mining(self, xp: int):
+        total_xp = self.get_mining_xp() + xp
+        self.__skill_mining["xp"] = total_xp
+        
+
+
+        self.__skill_mining["level"] = self._xp_to_level(total_xp)
 
     def add_item(self, item: str):
         if item in self.__inventory:
